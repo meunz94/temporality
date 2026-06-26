@@ -12,7 +12,9 @@ const { title = '(Tempo)rality', description = '時間性 — temporality' } = A
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 모바일에서도 PC 레이아웃(1600px 캔버스)을 그대로 그린 뒤 화면 폭에 맞춰 통째로 축소.
+         반응형 리플로우 없이 PC 화면을 줌아웃해서 보여줌. (데스크탑은 이 meta를 무시) -->
+    <meta name="viewport" content="width=1600" />
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon.png`} />
