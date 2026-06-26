@@ -59,6 +59,8 @@ const noticeHref = `${base}notice`.replace(/\/{2,}/g, '/');
     width: var(--stage-w);
     height: var(--stage-h);
     overflow: hidden;
+    transform: scale(0.7);          /* 전체 뷰 기준 70% 축소 */
+    transform-origin: top left;
   }
 
   /* ── 좌측 ── */
