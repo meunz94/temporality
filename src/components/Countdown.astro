@@ -1,0 +1,71 @@
+---
+// D-day 카운트다운. target은 'YYYY-MM-DD' (현지 자정 기준).
+// 기본 목표일 = 접수 시작일(2026-07-13). 바꾸려면 prop으로 전달.
+// "[남은일수] Days / Left" 형태. 숫자는 전자식(DSEG), Days는 픽셀, Left는 serif.
+interface Props {
+  target?: string;
+}
+const { target = '2026-07-13' } = Astro.props;
+---
+
+<div class="countdown" data-target={target} aria-label="카운트다운">
+  <span class="cd-num">17</span>
+  <span class="cd-label" aria-hidden="true">
+    <span class="cd-days">Days</span>
+    <span class="cd-left">Left</span>
+  </span>
+</div>
+
+<style>
+  .countdown {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    color: var(--fg);
+    user-select: none;
+  }
+  .cd-num {
+    font-family: var(--digital);
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    font-size: 84px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .cd-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .cd-days {
+    font-family: var(--pixel);     /* Galmuri11 (픽셀) */
+    -webkit-font-smoothing: none;
+    font-size: 33px;
+  }
+  .cd-left {
+    font-family: var(--serif);     /* Noto Serif KR */
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.countdown').forEach((el) => {
+    const target = el.dataset.target;
+    const num = el.querySelector('.cd-num');
+    if (!target || !num) return;
+
+    const [y, m, d] = target.split('-').map(Number);
+    const goal = new Date(y, m - 1, d);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const MS = 24 * 60 * 60 * 1000;
+    const diff = Math.round((goal.getTime() - today.getTime()) / MS);
+
+    // 남은 일수 (마감 당일/이후엔 0 이하 → 절댓값 표시)
+    num.textContent = String(Math.abs(diff));
+  });
+</script>

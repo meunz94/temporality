@@ -1,0 +1,175 @@
+---
+import Base from '../layouts/Base.astro';
+import AsciiArt from '../components/AsciiArt.astro';
+import Countdown from '../components/Countdown.astro';
+import InfoBox from '../components/InfoBox.astro';
+
+const base = import.meta.env.BASE_URL;
+const noticeHref = `${base}notice`.replace(/\/{2,}/g, '/');
+---
+
+<Base>
+  <main class="stage">
+    <!-- 좌측: ASCII 아트 -->
+    <section class="left">
+      <AsciiArt />
+    </section>
+
+    <!-- 대형 時間性 — 좌하단 오버랩 (컬럼 경계를 넘어 가로로 뻗음) -->
+    <h2 class="cjk" aria-hidden="true">時間性</h2>
+
+    <!-- 우측: 타이틀 / 사전 정의 / 박스 그리드 -->
+    <section class="right">
+      <header class="title-row">
+        <h1 class="title">(Tempo)rality</h1>
+        <span class="arrow" aria-hidden="true"></span>
+      </header>
+
+      <div class="definition">
+        <p>명사 [<span class="kw">시간</span>썽]</p>
+        <p>1.일정한 <span class="kw">시간</span> 내에 하여야 하는 특성.</p>
+        <p>2.<b>철학</b> 하이데거 및 후설의 현상학에서, 자연적 · 통속적 <span class="kw">시간</span>에 대하여 근원적인 <span class="kw">시간</span>을 나타내는 말.</p>
+      </div>
+
+      <div class="boxes">
+        <div class="col col-notice">
+          <Countdown target="2026-07-13" />
+          <InfoBox label="공지사항" variant="solid" href={noticeHref} />
+        </div>
+
+        <InfoBox label="접수" variant="dashed">
+          July 13th ~<br />July 15th
+        </InfoBox>
+
+        <InfoBox label="제출" variant="dashed">
+          September 1st ~<br />September 14th
+        </InfoBox>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  /* 고정 캔버스 — 반응형 없음. 최상단/왼쪽 기준 고정 배치. */
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--left-col) 1fr;
+    grid-template-rows: var(--stage-h);
+    width: var(--stage-w);
+    height: var(--stage-h);
+    overflow: hidden;
+  }
+
+  /* ── 좌측 ── */
+  .left {
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    padding: 8px 0 0 8px;
+  }
+  .cjk {
+    position: absolute;
+    z-index: 2;
+    left: 70px;
+    bottom: 50px;
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 155px;
+    line-height: 1.4;
+    color: var(--fg);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* ── 우측 ── */
+  .right {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    padding: var(--pad);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .title {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 120px;
+    line-height: 1.4;          /* 행간 */
+    letter-spacing: -1.5px;      /* 자간 */
+    display: inline-block;
+    transform: scaleX(0.82);    /* 장평 */
+    transform-origin: left;
+  }
+  /* 타이틀 글씨와 겹치며 오른쪽으로 뻗는 화살표 */
+  .arrow {
+    position: relative;
+    z-index: 3;
+    flex: 0 0 780px;
+    height: 5px;
+    background: var(--fg);
+    align-self: center;
+    margin-top: 1em;
+    margin-left: -840px;   /* 글씨 끝( ...rality )과 겹치도록 좌측으로 당김 */
+  }
+  .arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-top: 5px solid var(--fg);
+    border-right: 5px solid var(--fg);
+    transform: translateY(-50%) rotate(45deg);
+    transform-origin: center;
+  }
+
+  .definition {
+    margin-top: 32px;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.5;          /* 행간 */
+    letter-spacing: -2px;      /* 자간 */
+    color: var(--fg);
+    max-width: 80ch;
+  }
+  .definition p { margin: 2px 0; }
+  .definition b { font-weight: 700; }
+  .definition .kw {
+    font-family: var(--sans);
+    font-weight: 500;
+  }
+
+  /* ── 박스 그리드 ── */
+  .boxes {
+    margin-top: auto;
+    margin-bottom: 150px;   /* 하단에서 위로 올림 */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    align-items: stretch;
+    width: 800px;
+    margin-left: 70px;
+    padding-top: 50px;
+  }
+  /* 숫자(카운트다운)와 공지사항 박스를 가깝게 붙임 */
+  .col-notice {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+  }
+  /* 접수/제출 박스는 좌측(숫자+공지사항) 합산 높이에 맞춰 늘어남 */
+  .boxes > :global(.box) { height: 100%; }
+  .col-notice > :global(.box) { min-height: 0; height: 70px; }
+</style>

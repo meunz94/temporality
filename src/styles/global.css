@@ -1,0 +1,58 @@
+/* 폰트 — npm 패키지에서 셀프 호스팅 (GitHub Pages에서 외부 의존성 없이 동작) */
+@import '@fontsource/noto-serif-kr/400.css';
+@import '@fontsource/noto-serif-kr/500.css';
+@import '@fontsource/noto-serif-kr/700.css';
+@import '@fontsource/noto-sans-kr/400.css';
+@import '@fontsource/noto-sans-kr/500.css';
+@import '@fontsource/noto-sans-kr/700.css';
+@import 'galmuri/dist/galmuri.css';
+
+/* DSEG14 Classic — 14-세그먼트 전자식 디스플레이 폰트 (로컬 셀프 호스팅)
+   7-세그먼트(DSEG7)는 대문자 D를 0과 구분 못해 소문자 d로만 표시되므로,
+   진짜 'D'가 보이도록 14-세그먼트를 사용 */
+@font-face {
+  font-family: 'DSEG14 Classic';
+  font-weight: 700;
+  font-style: normal;
+  src: url('../assets/fonts/DSEG14Classic-Bold.woff2') format('woff2'),
+       url('../assets/fonts/DSEG14Classic-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+:root {
+  --bg: #000000;
+  --fg: #ffffff;
+  --dim: #cfcfcf;
+
+  --serif: 'Noto Serif KR', serif;
+  --sans: 'Noto Sans KR', sans-serif;
+  --pixel: 'Galmuri11', monospace;
+  --pixel-sm: 'Galmuri9', monospace;
+  --digital: 'DSEG14 Classic', monospace;
+
+  /* 고정 레이아웃 (반응형 없음, 최상단/왼쪽 기준) */
+  --stage-w: 1600px;
+  --stage-h: 900px;
+  --left-col: 512px;
+  --pad: 64px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 픽셀 폰트는 안티앨리어싱 끄면 더 또렷함 */
+.pixel, .pixel * {
+  font-family: var(--pixel);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+a { color: inherit; }

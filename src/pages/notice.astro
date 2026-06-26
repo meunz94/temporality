@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL;
+const home = base;
+
+// 더미 공지 데이터
+const notices = [
+  {
+    date: '2026.06.20',
+    title: '(Tempo)rality 공모전 개최 안내',
+    body: '시간성(時間性)을 주제로 한 디자인 공모전을 개최합니다. 자세한 일정은 아래 접수·제출 기간을 확인해 주세요.',
+  },
+  {
+    date: '2026.07.01',
+    title: '접수 방법 안내',
+    body: '접수 기간은 7월 13일부터 7월 15일까지입니다. (※ 본 페이지는 더미 콘텐츠입니다.)',
+  },
+  {
+    date: '2026.08.15',
+    title: '제출 가이드라인 공개',
+    body: '제출 기간은 9월 1일부터 9월 14일까지입니다. 제출 형식 및 규격은 추후 공지될 예정입니다.',
+  },
+];
+---
+
+<Base title="공지사항 — (Tempo)rality">
+  <main class="page">
+    <a class="back pixel" href={home}>← (Tempo)rality</a>
+    <h1 class="heading pixel">공지사항</h1>
+
+    <ul class="list">
+      {notices.map((n) => (
+        <li class="item">
+          <span class="date pixel">{n.date}</span>
+          <h2 class="item-title">{n.title}</h2>
+          <p class="item-body">{n.body}</p>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem;
+    min-height: 100vh;
+  }
+  .back {
+    font-family: 'Galmuri9', monospace;
+    -webkit-font-smoothing: none;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--dim);
+  }
+  .back:hover { color: var(--fg); }
+
+  .heading {
+    font-family: 'Galmuri11', monospace;
+    -webkit-font-smoothing: none;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 1.2rem 0 2.5rem;
+    border-bottom: 1.5px solid var(--fg);
+    padding-bottom: 0.8rem;
+  }
+
+  .list { list-style: none; margin: 0; padding: 0; }
+  .item {
+    padding: 1.6rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+  }
+  .date {
+    font-family: 'Galmuri9', monospace;
+    -webkit-font-smoothing: none;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+  .item-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin: 0.4rem 0 0.6rem;
+  }
+  .item-body {
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--dim);
+    margin: 0;
+  }
+</style>

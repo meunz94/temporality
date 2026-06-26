@@ -1,0 +1,69 @@
+---
+// 정보 박스. variant: 'solid' | 'dashed'. href가 있으면 클릭 가능(링크).
+interface Props {
+  label: string;
+  variant?: 'solid' | 'dashed';
+  href?: string;
+}
+const { label, variant = 'dashed', href } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  class:list={['box', variant, { clickable: !!href }]}
+  href={href}
+>
+  <div class="box-body pixel"><slot /></div>
+  <div class="box-label pixel">{label}</div>
+</Tag>
+
+<style>
+  .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.1rem 1.2rem;
+    min-height: 0;
+    text-decoration: none;
+    color: var(--fg);
+  }
+  .box.solid { border: 1.5px solid var(--fg); }
+  .box.dashed { border: 1.5px dashed var(--fg); }
+
+  .box.clickable { cursor: pointer; transition: background 120ms ease; }
+  .box.clickable:hover { background: rgba(255, 255, 255, 0.08); }
+  /* href 없는 박스(접수/제출)는 클릭 불가 명시 */
+  .box:not(.clickable) { cursor: default; }
+
+  .box-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: 'Galmuri11', monospace;
+    font-weight: 100;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 1.55;
+    text-align: right;
+    color: rgba(255, 255, 255, 1);
+    box-sizing: content-box;
+    background-clip: unset;
+    -webkit-background-clip: unset;
+  }
+  .box-body:empty { display: none; }
+
+  .box-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: 'Galmuri11', monospace;
+    font-weight: 100;
+    -webkit-font-smoothing: antialiased;
+    font-size: 20px;
+    text-align: left;
+    color: var(--fg);
+    margin-top: auto;       /* 라벨을 박스 하단으로 정렬 (공지사항/접수/제출 동일 위치) */
+    margin-bottom: 0;
+  }
+</style>

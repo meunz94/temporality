@@ -1,0 +1,22 @@
+---
+// 좌측 ASCII 아트 — 장식용. 스크린리더에서 숨김.
+import art from '../assets/ascii-art.txt?raw';
+---
+
+<pre class="ascii" aria-hidden="true">{art}</pre>
+
+<style>
+  .ascii {
+    margin: 0;
+    font-family: 'GalmuriMono9', monospace;
+    -webkit-font-smoothing: none;
+    /* 고정 크기 — 92줄이 stage 높이(900px) 안에 들어오도록 */
+    font-size: 9px;
+    line-height: 1.02;
+    letter-spacing: 0;
+    color: #e8e8e8;
+    white-space: pre;
+    user-select: none;
+    overflow: hidden;
+  }
+</style>
