@@ -25,11 +25,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # base/site를 저장소 이름 기준으로 자동 설정 (프로젝트 페이지)
+      # 커스텀 도메인(temporality.art)은 루트에서 서빙되므로 base는 '/'
       - name: Build
         env:
-          BASE_PATH: /${{ github.event.repository.name }}
-          SITE_URL: https://${{ github.repository_owner }}.github.io
+          BASE_PATH: /
+          SITE_URL: https://temporality.art
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
